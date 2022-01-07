@@ -1,0 +1,20 @@
+adapters: 
+  - http
+  - ws
+debug: false
+enableVerify: true
+verifyKey: 1234567890
+singleMode: false
+cacheSize: 4096
+adapterSettings:
+  ## 详情看 http adapter 使用说明 配置
+  http:
+    host: localhost
+    port: 8081
+    cors: [*]
+  
+  ## 详情看 websocket adapter 使用说明 配置
+  ws:
+    host: localhost
+    port: 8081
+    reservedSyncId: -1

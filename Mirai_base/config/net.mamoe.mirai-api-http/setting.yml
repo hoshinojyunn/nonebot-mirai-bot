@@ -1,0 +1,40 @@
+cors: 
+  - '*'
+
+host: 0.0.0.0
+port: 23333
+# mirai监听ip与端口，端口值建议>10000，<65536
+
+authKey: QQBotofPaS
+# 认证密码
+
+cacheSize: 4096
+enableWebsocket: true
+# Websocket开关
+
+report: 
+  enable: false
+  # post总开关
+
+  groupMessage: 
+    report: true
+  friendMessage: 
+    report: true
+  tempMessage: 
+    report: true
+  eventMessage: 
+    report: true
+  destinations: 
+    - 'http://127.0.0.1:11451/mirai/http'
+    # post发送地址（们）
+    
+  extraHeaders: {}
+
+heartbeat: 
+  enable: false
+  delay: 1000
+  period: 15000
+  destinations: []
+  extraBody: {}
+
+  extraHeaders: {}
