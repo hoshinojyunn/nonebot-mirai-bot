@@ -1,18 +1,36 @@
-from nonebot.plugin import on_command, on_keyword
-from nonebot.rule import to_me
-from nonebot.adapters.mirai import Bot, MessageEvent, Event, MessageSegment, MessageChain
 
-State = {}  # 初始功能dict
-matcher = on_keyword({"test"}, priority=3, rule=to_me())
+import time
 
 
-# @matcher.args_parser
-# async def parse(bot: Bot, event: Event, state: dict):
-#     print(state["_current_key"], ":", str(event.get_message()))
-#     state[state["_current_key"]] = str(event.get_message())  # 查命令
+def test():
+    def on_start(app):
+        print('Starting...')
+
+    def on_receive(app):
+        print('Receiving...')
+
+    def on_error(app, e):
+        print('Error on' + str(app) + ':')
+        print(e)
+
+    def on_stop(app, result):
+        print('Stop')
+        print(result)
+        breakpoint()
+
+    app = arc.Application('750248806',
+                          on_start=on_start,
+                          on_receive=on_receive,
+                          on_error=on_error,
+                          on_stop=on_stop)
+
+    app.start()
+    while not app.stop_flag:
+        print(time.localtime(time.time()))
+        time.sleep(3)
+    print('MainThread stop')
+    breakpoint()
 
 
-@matcher.handle()
-async def first_receive(bot: Bot, event: Event):
-    ater_id = event.get_user_id()
-    await bot.send(event, ater_id, at_sender=False)
+if __name__ == '__main__':
+    test()

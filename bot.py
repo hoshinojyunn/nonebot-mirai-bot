@@ -31,7 +31,7 @@ def main():
     nonebot.load_plugins('./src/plugins/weather_query')  # 加载插件
     nonebot.load_plugins('./src/plugins/spider-master')
     nonebot.load_plugins('./src/plugins/EroPics')
-    # nonebot.load_plugins('./src/plugins/arcaea')
+    nonebot.load_plugins('./src/plugins/bf1')
     nonebot.run()
 
 
@@ -67,7 +67,7 @@ def remake_exconfig(connect_type: str):
 
 if __name__ == "__main__":
     # 临时启动mcl
-    os.system('cd Mirai_base && start mcl.cmd')
+    #os.system('cd Mirai_base && start mcl.cmd')
 
     main()
 

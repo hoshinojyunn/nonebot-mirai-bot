@@ -2,7 +2,7 @@ cors:
   - '*'
 
 host: 0.0.0.0
-port: 23333
+port: 30880
 # mirai监听ip与端口，端口值建议>10000，<65536
 
 authKey: QQBotofPaS

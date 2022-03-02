@@ -1,4 +1,4 @@
-from nonebot import on_keyword
+from nonebot import on_keyword, on_command
 from nonebot.adapters.mirai import Bot, MessageEvent, MessageSegment, MessageChain
 import requests
 
@@ -10,7 +10,7 @@ class Get_setu():
 
     def get_pic(self) -> list:  # 全年龄
         response1 = requests.get(url="https://api.nyan.xyz/httpapi/sexphoto/",
-                                 params={"num": 1, "r18": True}, timeout=30).json()
+                                 params={"num": 1}, timeout=30).json()
         result = response1.get('data')
         return result.get('url')
 
@@ -24,7 +24,7 @@ class Get_setu():
 def merge_pics() -> MessageChain:
     get = Get_setu()
     pics_url = get.get_pic()
-    chain = MessageChain()
+    chain = MessageChain('')
     for link in pics_url:
         chain.append(MessageSegment.image(image_id=None, url=link, path=None))
     return chain
@@ -38,31 +38,51 @@ def merge_super_pics() -> MessageChain:
         _chain.append(MessageSegment.image(image_id=None, url=link, path=None))
     return _chain
 
+setu = on_command('Setu')
+setu_help = on_command(('Setu','help'))
+
+
+@setu.handle()
+@setu_help.handle()
+async def setu_help(bot: Bot, event: MessageEvent):
+    help_message = '发送 [随机色图]: 返回一张普通setu\n发送 [超级色图]: 返回一张r18 setu(慎用)'
+    await bot.send(event, help_message, True)
+
 
 # http://api.mtyqx.cn/api/random.php
-Pic = on_keyword({'随机色图'}, priority=3)
+Pic = on_keyword({'随机色图'}, priority=2)
 
 
 @Pic.handle()
 async def get_pics(bot: Bot, event: MessageEvent):
-    await bot.send(event, merge_pics(), at_sender=False)
+    await bot.send(event, "随机色图正在路上......", at_sender=True)
+    try:
+        pics = merge_pics()
+        await bot.send(event, pics, at_sender=True)
+    except requests.exceptions.ReadTimeout:
+        await bot.send(event, "响应超时,大概是API炸了", True)
 
 
-Super_pic = on_keyword({'超级色图'}, priority=3)
+Super_pic = on_keyword({'超级色图'}, priority=2)
 
 
 @Super_pic.handle()
 async def get_super_pics(bot: Bot, event: MessageEvent):
-    await bot.send(event, merge_super_pics(), at_sender=False)
+    await bot.send(event, "超级色图正在路上......", at_sender=True)
+    try:
+        pics = merge_super_pics()
+        await bot.send(event, pics, at_sender=True)
+    except requests.exceptions.ReadTimeout:
+        await bot.send(event, "响应超时,大概是API炸了", True)
 
 
-test = on_keyword({'setu'}, priority=3)
+test = on_command(cmd=('test', 'b30'), priority=2)
 
 
 @test.handle()
 async def test(bot: Bot, event: MessageEvent):
-    mess = MessageSegment.image(image_id=None, url="https://api.yimian.xyz/img", path=None)
-    await bot.send(event, mess)
+    pic = MessageSegment.image(path='间桐樱1.jpg')
+    await bot.send(event, pic, at_sender=False)
 
 
 if __name__ == "__main__":
